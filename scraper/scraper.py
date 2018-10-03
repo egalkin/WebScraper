@@ -27,10 +27,9 @@ def main():
         global_hash = ''
         for r in response:
             global_hash += store_vacancy_record(es, 'hh', r, url)
-        global_hash += 'egor'
         hash_object = hashlib.md5(global_hash.encode())
         changes = get_changes(es, 'log', url)
-        record = create_changes_log(url, hash_object.hexdigest(), len(response) + 25)
+        record = create_changes_log(url, hash_object.hexdigest(), len(response))
         if len(changes) == 0:
             store_change_record(es, 'log', record, url)
             record['status'] = 'create'
