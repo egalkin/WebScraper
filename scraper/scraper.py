@@ -8,6 +8,7 @@ from es_settings import hh_settings, log_settings
 from put_bodies import create_changes_log
 from scrapping_utils import parse_html, get_pages
 from search_utils import create_index, store_vacancy_record, store_url_record, get_changes, store_change_record
+from url_addreses import COLLECTOR_URL
 
 
 def main():
@@ -33,13 +34,13 @@ def main():
         if len(changes) == 0:
             store_change_record(es, 'log', record, url)
             record['status'] = 'create'
-            requests.post('http://localhost:5000/api/v1/collect', data=record)
+            requests.post(COLLECTOR_URL, data=record)
         else:
             cur_record_hash = changes[0]['_source']['hash']
             if hash_object.hexdigest() != cur_record_hash:
                 store_change_record(es, 'log', record, url)
                 record['status'] = 'update'
-                requests.post('http://localhost:5000/api/v1/collect', data=record)
+                requests.post(COLLECTOR_URL, data=record)
 
 
 if __name__ == "__main__":
