@@ -1,8 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
+from bs4.element import Tag
+from requests.sessions import Session
 
 
-def get_item_info(item):
+def get_item_info(item: Tag) -> dict:
     response = dict()
     response['vacancy_name'] = item.find('div', {'class': 'search-item-name'}).find('a').text
     response['employer'] = item.find('div', {'class': 'vacancy-serp-item__meta-info'}).find('a').text
@@ -12,7 +14,7 @@ def get_item_info(item):
     return response
 
 
-def parse_html(data_list):
+def parse_html(data_list: list) -> list:
     variants_list = list()
     for data in data_list:
         items = data.find_all('div', {'class': 'vacancy-serp-item'})
@@ -21,7 +23,7 @@ def parse_html(data_list):
     return variants_list
 
 
-def contain_vacancy_list(data):
+def contain_vacancy_list(data: str) -> Tag or None:
     soup = BeautifulSoup(data, features="lxml")
     item = soup.find('div', {'class': 'vacancy-serp-item'})
     result = soup.find('div', {'class': 'vacancy-serp'})
@@ -30,13 +32,13 @@ def contain_vacancy_list(data):
     return None
 
 
-def load_page(page, session, url_body):
+def load_page(page: int, session: Session, url_body: str) -> str:
     url = '{}&page={}'.format(url_body, page)
     r = session.get(url)
     return r.text
 
 
-def get_pages(url):
+def get_pages(url: str) -> list:
     s = requests.session()
     s.headers.update({
         'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:62.0) Gecko/20100101 Firefox/62.0'

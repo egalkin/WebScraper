@@ -6,7 +6,7 @@ from elasticsearch import Elasticsearch
 
 from es_settings import hh_settings, log_settings
 from put_bodies import create_changes_log
-from scrapping_utils import parse_html, get_pages
+from scraping_utils import parse_html, get_pages
 from search_utils import create_index, store_vacancy_record, store_url_record, get_changes, store_change_record
 from url_addreses import COLLECTOR_URL
 
