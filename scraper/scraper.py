@@ -20,7 +20,7 @@ def main():
         scrap(url)
 
 
-def scrap(url, hash_suffix='', add_to_len=0):
+def scrap(url: str, hash_suffix: str = '', add_to_len: int = 0) -> None:
     es = Elasticsearch()
     response = parse_html(get_pages(url))
     doc = {
