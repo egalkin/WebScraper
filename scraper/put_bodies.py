@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def create_changes_log(url, hash, num_of_responses):
+def create_changes_log(url: str, hash: str, num_of_responses: int) -> dict:
     log = {
         'url': url,
         'hash': hash,
