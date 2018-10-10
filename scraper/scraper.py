@@ -26,16 +26,20 @@ def scrap(url, hash_suffix='', add_to_len=0):
     doc = {
         'path': url
     }
+
     create_index(es, 'hh', hh_settings)
     create_index(es, 'log', log_settings)
     store_url_record(es, 'hh', doc, url)
+
     global_hash = ''
     for r in response:
         global_hash += store_vacancy_record(es, 'hh', r, url)
     global_hash += hash_suffix
     hash_object = hashlib.md5(global_hash.encode())
+
     changes = get_changes(es, 'log', url)
     record = create_changes_log(url, hash_object.hexdigest(), len(response) + add_to_len)
+
     if len(changes) == 0:
         store_change_record(es, 'log', record, url)
         record['status'] = 'create'
